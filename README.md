@@ -1,1 +1,1 @@
-# Enterprise-Analytics-Anomaly-Copilot
+# Enterprise Analytics & Anomaly Copilot
