@@ -1,5 +1,5 @@
 # Enterprise Analytics & Anomaly Copilot
-# 🌐 Universal Autonomous Analytics & Anomaly Copilot
+
 ### Zero-Hallucination Conversational BI • AST-Hardened Security •  Self-Healing SQL •  Statistical Anomaly Detection for Cross-Industry Enterprise Data
 
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
@@ -43,63 +43,62 @@ This platform is not constrained to consumer applications. It adapts dynamically
 
 ## 🏗️ System Architecture
 
-
-                        ╭──────────────────────────────╮
-                        │   Natural Language Inquiry   │
-                        ╰──────────────┬───────────────╯
-                                       │
-                                       ▼
-        ╭─────────────────────────────────────────────────────────────╮
-        │          Dynamic DDL Schema Introspection Engine            │
-        │       (Extracts user tables from catalog at runtime)        │
-        ╰──────────────────────────────┬──────────────────────────────╯
-                                       │
-                                       ▼
-        ╭─────────────────────────────────────────────────────────────╮
-        │                   Google Gemini Compiler                    │
-        │    (Translates prompt into dialect-specific SQL @ T=0.0)    │
-        ╰──────────────────────────────┬──────────────────────────────╯
-                                       │
-                                       ▼
-        ╭─────────────────────────────────────────────────────────────╮
-        │                    AST Security Guardrail                   │
-        │ (Parses sqlglot AST: blocks DDL/DML, catalog snooping, etc) │
-        ╰──────────────────────────────┬──────────────────────────────╯
-                                       │
-                       ┌───────────────┴───────────────┐
-                    (Valid)                        (Invalid)
-                       │                               │
-                       ▼                               ▼
-        ╭─────────────────────────────╮ ╭─────────────────────────────╮
-        │    SQLite Read-Only Lock    │ │  Autonomous Reflexion Loop  │
-        │    (URI file:db?mode=ro)    │ │(Feeds compiler errors back; │
-        ╰──────────────┬──────────────╯ │ self-heals up to 3 attempts)│
-                       │                ╰──────────────┬──────────────╯
-                       │◄──────────────────────────────┘
-                       ▼
-        ╭─────────────────────────────────────────────────────────────╮
-        │              Deterministic Pandas Data Layer                │
-        ╰──────────────────────────────┬──────────────────────────────╯
-                       ┌───────────────┴───────────────┐
-                       ▼                               ▼
-        ╭─────────────────────────────╮ ╭─────────────────────────────╮
-        │ Statistical Anomaly Engine  │ │ Multimodal Executive Dossier│
-        │ • Modified Z-Score (MAD)    │ │ • Temporal Trendline        │
-        │ • Two-Proportion Z-Test     │ │ • Quartile / Donut Dist.    │
-        │ • Standard Z-Score Fallback │ │ • Outlier Density Dispersion│
-        ╰──────────────┬──────────────╯ ╰──────────────┬──────────────╯
-                       │                               │
-                       └───────────────┬───────────────┘
-                                       ▼
-        ╭─────────────────────────────────────────────────────────────╮
-        │          Live SVG Neural State Machine & Dashboard          │
-        ╰─────────────────────────────────────────────────────────────╯
-
-
-
-
----
-
-
----
-
+```text
+                 ╭───────────────────────────────╮
+                 │   Natural Language Inquiry    │
+                 ╰───────────────┬───────────────╯
+                                 │
+                                 v
+╭─────────────────────────────────────────────────────────────────╮
+│             Dynamic DDL Schema Introspection Engine             │
+│          (Extracts user tables from catalog at runtime)         │
+╰────────────────────────────────┬────────────────────────────────╯
+                                 │
+                                 v
+╭─────────────────────────────────────────────────────────────────╮
+│                     Google Gemini Compiler                      │
+│      (Translates prompt into dialect-specific SQL @ T=0.0)      │
+╰────────────────────────────────┬────────────────────────────────╯
+                                 │
+                                 v
+╭─────────────────────────────────────────────────────────────────╮
+│                     AST Security Guardrail                      │
+│   (Parses sqlglot AST: blocks DDL/DML, snooping & injections)   │
+╰────────────────────────────────┬────────────────────────────────╯
+                                 │
+                 ┌───────────────┴───────────────┐
+              (Valid)                        (Invalid)
+                 │                               │
+                 v                               v
+╭─────────────────────────────╮     ╭─────────────────────────────╮
+│    SQLite Read-Only Lock    │     │  Autonomous Reflexion Loop  │
+│    (URI file:db?mode=ro)    │     │ (Feeds compiler errors back;│
+│                             │     │  self-heals up to 3 tries)  │
+╰──────────────┬──────────────╯     ╰──────────────┬──────────────╯
+               │                                   │
+               ├<──────────────────────────────────┘
+               │
+               └─────────────────┐
+                                 │
+                                 v
+╭─────────────────────────────────────────────────────────────────╮
+│                 Deterministic Pandas Data Layer                 │
+╰────────────────────────────────┬────────────────────────────────╯
+                                 │
+                 ┌───────────────┴───────────────┐
+                 │                               │
+                 v                               v
+╭─────────────────────────────╮     ╭─────────────────────────────╮
+│ Statistical Anomaly Engine  │     │ Multimodal Executive Dossier│
+│  - Modified Z-Score (MAD)   │     │  - Temporal Trendline (SNS) │
+│  - Two-Proportion Z-Test    │     │  - Quartile / Donut Dist.   │
+│  - Standard Z-Score Fallback│     │  - Outlier Density Plot     │
+╰──────────────┬──────────────╯     ╰──────────────┬──────────────╯
+               │                                   │
+               └─────────────────┬─────────────────┘
+                                 │
+                                 v
+╭─────────────────────────────────────────────────────────────────╮
+│            Live SVG Neural State Machine & Dashboard            │
+╰─────────────────────────────────────────────────────────────────╯
+```
