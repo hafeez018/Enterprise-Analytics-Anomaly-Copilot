@@ -297,5 +297,3 @@ The roadmap transitions this prototype into a full-scale enterprise analytics ag
 
 * **Goal:** Overlay forward-looking predictive confidence intervals onto historical anomaly plots.
 * **Value:** Allows supply chain and manufacturing teams to move from reactive mitigation to predictive capacity planning.
-
-```
