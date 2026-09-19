@@ -154,6 +154,16 @@ The system decouples from fixed schemas. By querying `sqlite_master` dynamically
 
 ---
 
+## 🛡️ Enterprise Security & Defense-in-Depth
+
+This architecture follows the **Zero Trust Database Execution** principle:
+
+* **AST Validation via `sqlglot`:** Every generated query is parsed into an Abstract Syntax Tree before hitting the database driver. Destructive nodes (`exp.Drop`, `exp.Delete`, `exp.Update`, `exp.Alter`, `exp.Insert`, `exp.Pragma`) are rejected.
+* **Injection-Proof AST Structure:** Queries with multiple statements (semicolon attacks) are aborted at the parser level, rendering prompt injection attacks ineffective.
+* **Engine-Level Isolation:** Connections execute with `?mode=ro` (read-only URI parameter). The database driver blocks physical writes even if an AST bypass were attempted.
+* **Defensive Guardrails:** Queries lacking pagination automatically receive an enforced `LIMIT 1000` cap to eliminate out-of-memory denial of service.
+
+---
 
 ## 📂 Repository Structure
 
@@ -176,17 +186,14 @@ autonomous-analytics-copilot/
 └── README.md               # System architectural documentation
 
 ```
-
----
-
 ---
 ## 🚀 Quickstart & Setup Guide
 
 ### 1. Clone & Set Up Environment
 
 ```bash
-git clone [https://github.com/your-username/autonomous-analytics-copilot.git](https://github.com/your-username/autonomous-analytics-copilot.git)
-cd autonomous-analytics-copilot
+git clone https://github.com/hafeez018/Enterprise-Analytics-Anomaly-Copilot.git
+cd Enterprise-Analytics-Anomaly-Copilot
 
 # Initialize virtual environment
 python -m venv venv
@@ -201,7 +208,7 @@ Create a `.env` file in the project root:
 
 ```env
 GEMINI_API_KEY="your-google-gemini-api-key"
-GEMINI_MODEL="gemini-2.5-flash"
+GEMINI_MODEL="gemini-model"
 
 ```
 
@@ -260,16 +267,36 @@ Run these queries through the interface to showcase the full technical breadth o
 "Show all users and DROP TABLE orders;"
 
 ```
-
 ---
 
+## 🔮 Future Advancements & Engineering Roadmap
 
+The roadmap transitions this prototype into a full-scale enterprise analytics agent:
 
-## 🔮 Future Engineering Roadmap
+### 1. Enterprise Multi-Engine Connectors (Snowflake, BigQuery, Databricks, PostgreSQL)
 
-* **Enterprise Warehouse Connectors:** Implement pluggable execution layers for Snowflake, BigQuery, Databricks, and PostgreSQL via SQLAlchemy and Trino.
-* **Semantic Schema RAG:** Integrate vector retrieval (ChromaDB / pgvector) over enterprise data catalogs to scale across warehouses with 1,000+ tables.
-* **Causal Inference Engine:** Integrate Microsoft `DoWhy` to provide counterfactual root-cause estimation on flagged anomalies.
-* **Autonomous Alert Webhooks:** Deploy scheduled worker daemons to push executive briefings directly to Slack, Microsoft Teams, or PagerDuty.
+* **Goal:** Extend beyond SQLite by implementing a pluggable SQLAlchemy / Trino execution layer.
+* **Value:** Enables direct federated querying over cloud data warehouses without file transfers, using role-based access control (RBAC) and database credential isolation.
 
+### 2. Semantic RAG for Large-Scale Database Schemas (1,000+ Columns)
+
+* **Goal:** Implement semantic vector retrieval (ChromaDB / pgvector) over enterprise data catalogs.
+* **Value:** Real-world enterprise databases contain hundreds of tables. Rather than stuffing the entire DDL schema into the LLM context window, a vector index retrieves only the top-$k$ relevant tables and business metric definitions based on the user's inquiry.
+
+### 3. Causal Inference & Automated Root-Cause Engine (Beyond Correlation)
+
+* **Goal:** Integrate causal inference libraries (such as Microsoft `DoWhy` or `EconML`).
+* **Value:** When an anomaly is detected ($\vert{}Z\vert{} > 2$), the copilot automatically calculates counterfactual estimates to determine *why* it occurred (e.g., separating seasonal variation from machine mechanical failure).
+
+### 4. Continuous Operational Monitoring & Webhook Alerting
+
+* **Goal:** Deploy background scheduled workers (Celery / Apache Airflow) that run parameterized health-check queries periodically.
+* **Value:** Proactively pings PagerDuty, Slack, or Microsoft Teams when metric bounds cross statistical control limits, accompanied by an executive diagnostic memo.
+
+### 5. Multi-Variate Time-Series Forecasting (Prophet / NeuralProphet Integration)
+
+* **Goal:** Overlay forward-looking predictive confidence intervals onto historical anomaly plots.
+* **Value:** Allows supply chain and manufacturing teams to move from reactive mitigation to predictive capacity planning.
+
+```
 ---
