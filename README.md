@@ -28,12 +28,18 @@ Traditional Business Intelligence (BI) tools and emerging LLM wrappers suffer fr
 ## Presentation
 
 
-https://github.com/user-attachments/assets/d2c58485-659a-4bf3-9da2-cb0ff46520f7
+
+
+https://github.com/user-attachments/assets/0490d21c-0caf-4d56-baa3-6cec85849f35
+
+
 
 
 ## Testing
 
 
+
+https://github.com/user-attachments/assets/342ef164-1f74-422f-984b-9a4f1850ae1a
 
 
 
