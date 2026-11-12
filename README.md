@@ -25,6 +25,18 @@ Traditional Business Intelligence (BI) tools and emerging LLM wrappers suffer fr
 * **Integrity Guarantee:**  The architecture guarantees **zero mathematical hallucination**. The LLM never invents or approximates numbers and acts strictly as a semantic compiler at $T = 0.0$; all computations,outlier evaluations, and aggregations are computed deterministically by the database engine on SQLite/Pandas and verified via strict statistical math.
 
 
+## Presentation
+
+
+https://github.com/user-attachments/assets/d2c58485-659a-4bf3-9da2-cb0ff46520f7
+
+
+## Testing
+
+
+
+
+
 
 
 ## 🏭 Multi-Sector Application Matrix
@@ -187,6 +199,11 @@ autonomous-analytics-copilot/
 
 ```
 ---
+## Presentation
+## Testing
+https://github.com/user-attachments/assets/b4d0cc91-b8a5-440d-9642-09509684cbcd
+
+
 ## 🚀 Quickstart & Setup Guide
 
 ### 1. Clone & Set Up Environment
