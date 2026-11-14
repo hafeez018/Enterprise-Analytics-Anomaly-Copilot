@@ -1,0 +1,254 @@
+[
+  {
+    "type": "malicious",
+    "sql": "DROP TABLE users;",
+    "result": "blocked",
+    "detail": "Forbidden statement type 'Drop'. Only read-only SELECT/UNION queries allowed."
+  },
+  {
+    "type": "malicious",
+    "sql": "DELETE FROM orders;",
+    "result": "blocked",
+    "detail": "Forbidden statement type 'Delete'. Only read-only SELECT/UNION queries allowed."
+  },
+  {
+    "type": "malicious",
+    "sql": "DELETE FROM orders WHERE user_id = 1;",
+    "result": "blocked",
+    "detail": "Forbidden statement type 'Delete'. Only read-only SELECT/UNION queries allowed."
+  },
+  {
+    "type": "malicious",
+    "sql": "UPDATE users SET plan = 'Pro';",
+    "result": "blocked",
+    "detail": "Forbidden statement type 'Update'. Only read-only SELECT/UNION queries allowed."
+  },
+  {
+    "type": "malicious",
+    "sql": "INSERT INTO users VALUES (1,'2026-09-01','iOS','Free');",
+    "result": "blocked",
+    "detail": "Forbidden statement type 'Insert'. Only read-only SELECT/UNION queries allowed."
+  },
+  {
+    "type": "malicious",
+    "sql": "ALTER TABLE events ADD COLUMN test TEXT;",
+    "result": "blocked",
+    "detail": "Forbidden statement type 'Alter'. Only read-only SELECT/UNION queries allowed."
+  },
+  {
+    "type": "malicious",
+    "sql": "CREATE TABLE x (a INT);",
+    "result": "blocked",
+    "detail": "Forbidden statement type 'Create'. Only read-only SELECT/UNION queries allowed."
+  },
+  {
+    "type": "malicious",
+    "sql": "REPLACE INTO users VALUES (1,'2026-09-01','iOS','Free');",
+    "result": "blocked",
+    "detail": "Forbidden statement type 'Command'. Only read-only SELECT/UNION queries allowed."
+  },
+  {
+    "type": "malicious",
+    "sql": "TRUNCATE TABLE users;",
+    "result": "blocked",
+    "detail": "Forbidden statement type 'TruncateTable'. Only read-only SELECT/UNION queries allowed."
+  },
+  {
+    "type": "malicious",
+    "sql": "SELECT * FROM users; DROP TABLE orders;",
+    "result": "blocked",
+    "detail": "Multi-statement execution rejected (2 statements found). Only single queries allowed."
+  },
+  {
+    "type": "malicious",
+    "sql": "SELECT 1; SELECT 2;",
+    "result": "blocked",
+    "detail": "Multi-statement execution rejected (2 statements found). Only single queries allowed."
+  },
+  {
+    "type": "malicious",
+    "sql": "SELECT 1; DELETE FROM users;",
+    "result": "blocked",
+    "detail": "Multi-statement execution rejected (2 statements found). Only single queries allowed."
+  },
+  {
+    "type": "malicious",
+    "sql": "dRoP TaBlE users;",
+    "result": "blocked",
+    "detail": "Forbidden statement type 'Drop'. Only read-only SELECT/UNION queries allowed."
+  },
+  {
+    "type": "malicious",
+    "sql": "SELECT * FROM users; /* harmless */ DROP TABLE users;",
+    "result": "blocked",
+    "detail": "Multi-statement execution rejected (3 statements found). Only single queries allowed."
+  },
+  {
+    "type": "malicious",
+    "sql": "WITH d AS (SELECT 1) DELETE FROM users;",
+    "result": "blocked",
+    "detail": "Forbidden statement type 'Delete'. Only read-only SELECT/UNION queries allowed."
+  },
+  {
+    "type": "malicious",
+    "sql": "SELECT * FROM sqlite_master;",
+    "result": "blocked",
+    "detail": "Access to internal system catalog table 'sqlite_master' is forbidden."
+  },
+  {
+    "type": "malicious",
+    "sql": "SELECT * FROM SQLITE_MASTER;",
+    "result": "blocked",
+    "detail": "Access to internal system catalog table 'SQLITE_MASTER' is forbidden."
+  },
+  {
+    "type": "malicious",
+    "sql": "SELECT sql FROM sqlite_schema WHERE type='table';",
+    "result": "blocked",
+    "detail": "Access to internal system catalog table 'sqlite_schema' is forbidden."
+  },
+  {
+    "type": "malicious",
+    "sql": "SELECT * FROM sqlite_temp_master;",
+    "result": "blocked",
+    "detail": "Access to internal system catalog table 'sqlite_temp_master' is forbidden."
+  },
+  {
+    "type": "malicious",
+    "sql": "SELECT * FROM main.sqlite_master;",
+    "result": "blocked",
+    "detail": "Access to internal system catalog table 'sqlite_master' is forbidden."
+  },
+  {
+    "type": "malicious",
+    "sql": "SELECT * FROM sqlite_sequence;",
+    "result": "blocked",
+    "detail": "Access to internal system catalog table 'sqlite_sequence' is forbidden."
+  },
+  {
+    "type": "malicious",
+    "sql": "SELECT name FROM pragma_table_info('users');",
+    "result": "blocked",
+    "detail": "Access to internal system catalog function 'pragma_table_info' is forbidden."
+  },
+  {
+    "type": "malicious",
+    "sql": "PRAGMA table_info(users);",
+    "result": "blocked",
+    "detail": "Forbidden statement type 'Pragma'. Only read-only SELECT/UNION queries allowed."
+  },
+  {
+    "type": "malicious",
+    "sql": "ATTACH DATABASE 'x.db' AS x;",
+    "result": "blocked",
+    "detail": "Forbidden statement type 'Attach'. Only read-only SELECT/UNION queries allowed."
+  },
+  {
+    "type": "malicious",
+    "sql": "SELECT load_extension('x');",
+    "result": "blocked",
+    "detail": "Access to internal system catalog function 'load_extension' is forbidden."
+  },
+  {
+    "type": "malicious",
+    "sql": "VACUUM;",
+    "result": "blocked",
+    "detail": "Forbidden statement type 'Command'. Only read-only SELECT/UNION queries allowed."
+  },
+  {
+    "type": "legitimate",
+    "sql": "SELECT user_id AS drop_rate FROM users;",
+    "result": "allowed",
+    "detail": "SELECT user_id AS drop_rate FROM users LIMIT 1000"
+  },
+  {
+    "type": "legitimate",
+    "sql": "SELECT device, COUNT(*) FROM users GROUP BY device;",
+    "result": "allowed",
+    "detail": "SELECT device, COUNT(*) FROM users GROUP BY device LIMIT 1000"
+  },
+  {
+    "type": "legitimate",
+    "sql": "SELECT * FROM events WHERE event_name = 'drop_pin';",
+    "result": "allowed",
+    "detail": "SELECT * FROM events WHERE event_name = 'drop_pin' LIMIT 1000"
+  },
+  {
+    "type": "legitimate",
+    "sql": "SELECT * FROM events WHERE event_name = 'checkout';",
+    "result": "allowed",
+    "detail": "SELECT * FROM events WHERE event_name = 'checkout' LIMIT 1000"
+  },
+  {
+    "type": "legitimate",
+    "sql": "SELECT 'Please delete my account' AS message;",
+    "result": "allowed",
+    "detail": "SELECT 'Please delete my account' AS message LIMIT 1000"
+  },
+  {
+    "type": "legitimate",
+    "sql": "SELECT 'UPDATE users SET x=1' AS note;",
+    "result": "allowed",
+    "detail": "SELECT 'UPDATE users SET x=1' AS note LIMIT 1000"
+  },
+  {
+    "type": "legitimate",
+    "sql": "SELECT plan, COUNT(*) AS update_count FROM users GROUP BY plan;",
+    "result": "allowed",
+    "detail": "SELECT plan, COUNT(*) AS update_count FROM users GROUP BY plan LIMIT 1000"
+  },
+  {
+    "type": "legitimate",
+    "sql": "SELECT COUNT(*) AS deleted_rows FROM orders;",
+    "result": "allowed",
+    "detail": "SELECT COUNT(*) AS deleted_rows FROM orders LIMIT 1000"
+  },
+  {
+    "type": "legitimate",
+    "sql": "SELECT user_id FROM users WHERE plan = 'Free' ORDER BY user_id;",
+    "result": "allowed",
+    "detail": "SELECT user_id FROM users WHERE plan = 'Free' ORDER BY user_id LIMIT 1000"
+  },
+  {
+    "type": "legitimate",
+    "sql": "SELECT strftime('%Y-%m', signup_date), COUNT(*) FROM users GROUP BY 1;",
+    "result": "allowed",
+    "detail": "SELECT STRFTIME('%Y-%m', signup_date), COUNT(*) FROM users GROUP BY 1 LIMIT 1000"
+  },
+  {
+    "type": "legitimate",
+    "sql": "SELECT u.user_id FROM users u JOIN orders o ON u.user_id = o.user_id;",
+    "result": "allowed",
+    "detail": "SELECT u.user_id FROM users AS u JOIN orders AS o ON u.user_id = o.user_id LIMIT 1000"
+  },
+  {
+    "type": "legitimate",
+    "sql": "WITH t AS (SELECT user_id FROM users) SELECT COUNT(*) FROM t;",
+    "result": "allowed",
+    "detail": "WITH t AS (SELECT user_id FROM users) SELECT COUNT(*) FROM t LIMIT 1000"
+  },
+  {
+    "type": "legitimate",
+    "sql": "SELECT user_id FROM users UNION SELECT user_id FROM orders;",
+    "result": "allowed",
+    "detail": "SELECT user_id FROM users UNION SELECT user_id FROM orders LIMIT 1000"
+  },
+  {
+    "type": "legitimate",
+    "sql": "SELECT * FROM (SELECT * FROM users LIMIT 5) t;",
+    "result": "allowed",
+    "detail": "SELECT * FROM (SELECT * FROM users LIMIT 5) AS t LIMIT 1000"
+  },
+  {
+    "type": "legitimate",
+    "sql": "SELECT order_date, SUM(amount) OVER (ORDER BY order_date) FROM orders;",
+    "result": "allowed",
+    "detail": "SELECT order_date, SUM(amount) OVER (ORDER BY order_date) FROM orders LIMIT 1000"
+  },
+  {
+    "type": "legitimate",
+    "sql": "SELECT * FROM users LIMIT 5;",
+    "result": "allowed",
+    "detail": "SELECT * FROM users LIMIT 5"
+  }
+]

@@ -1,0 +1,236 @@
+[
+  {
+    "id": 1,
+    "category": "easy",
+    "question": "How many users are in the database?",
+    "gold_sql": "SELECT COUNT(*) FROM users"
+  },
+  {
+    "id": 2,
+    "category": "easy",
+    "question": "How many users are on each device type?",
+    "gold_sql": "SELECT device, COUNT(*) FROM users GROUP BY device"
+  },
+  {
+    "id": 3,
+    "category": "easy",
+    "question": "How many users are on each plan?",
+    "gold_sql": "SELECT plan, COUNT(*) FROM users GROUP BY plan"
+  },
+  {
+    "id": 4,
+    "category": "easy",
+    "question": "How many users are on the Enterprise plan?",
+    "gold_sql": "SELECT COUNT(*) FROM users WHERE plan = 'Enterprise'"
+  },
+  {
+    "id": 5,
+    "category": "easy",
+    "question": "How many total orders were placed?",
+    "gold_sql": "SELECT COUNT(*) FROM orders"
+  },
+  {
+    "id": 6,
+    "category": "easy",
+    "question": "What is the total revenue across all orders?",
+    "gold_sql": "SELECT ROUND(SUM(amount), 2) FROM orders"
+  },
+  {
+    "id": 7,
+    "category": "easy",
+    "question": "What is the average order amount?",
+    "gold_sql": "SELECT ROUND(AVG(amount), 2) FROM orders"
+  },
+  {
+    "id": 8,
+    "category": "easy",
+    "question": "What is the largest single order amount?",
+    "gold_sql": "SELECT MAX(amount) FROM orders"
+  },
+  {
+    "id": 9,
+    "category": "easy",
+    "question": "How many events are recorded for each event name?",
+    "gold_sql": "SELECT event_name, COUNT(*) FROM events GROUP BY event_name"
+  },
+  {
+    "id": 10,
+    "category": "easy",
+    "question": "What is the earliest and latest signup date?",
+    "gold_sql": "SELECT MIN(signup_date), MAX(signup_date) FROM users"
+  },
+  {
+    "id": 11,
+    "category": "easy",
+    "question": "How many iOS users are there?",
+    "gold_sql": "SELECT COUNT(*) FROM users WHERE device = 'iOS'"
+  },
+  {
+    "id": 12,
+    "category": "easy",
+    "question": "How many distinct users have placed at least one order?",
+    "gold_sql": "SELECT COUNT(DISTINCT user_id) FROM orders"
+  },
+  {
+    "id": 13,
+    "category": "medium",
+    "question": "What is the total revenue by device type?",
+    "gold_sql": "SELECT u.device, ROUND(SUM(o.amount), 2) FROM orders o JOIN users u ON o.user_id = u.user_id GROUP BY u.device"
+  },
+  {
+    "id": 14,
+    "category": "medium",
+    "question": "What is the average order amount by plan?",
+    "gold_sql": "SELECT u.plan, ROUND(AVG(o.amount), 2) FROM orders o JOIN users u ON o.user_id = u.user_id GROUP BY u.plan"
+  },
+  {
+    "id": 15,
+    "category": "medium",
+    "question": "How many orders were placed in August 2026?",
+    "gold_sql": "SELECT COUNT(*) FROM orders WHERE strftime('%Y-%m', order_date) = '2026-08'"
+  },
+  {
+    "id": 16,
+    "category": "medium",
+    "question": "How many users signed up in each month?",
+    "gold_sql": "SELECT strftime('%Y-%m', signup_date), COUNT(*) FROM users GROUP BY 1"
+  },
+  {
+    "id": 17,
+    "category": "medium",
+    "question": "How many orders per day were placed between 2026-09-01 and 2026-09-05 inclusive?",
+    "gold_sql": "SELECT order_date, COUNT(*) FROM orders WHERE order_date BETWEEN '2026-09-01' AND '2026-09-05' GROUP BY order_date"
+  },
+  {
+    "id": 18,
+    "category": "medium",
+    "question": "Which 5 users have spent the most in total? Show user_id and total spend.",
+    "gold_sql": "SELECT user_id, ROUND(SUM(amount), 2) FROM orders GROUP BY user_id ORDER BY SUM(amount) DESC LIMIT 5"
+  },
+  {
+    "id": 19,
+    "category": "medium",
+    "question": "How many users have never placed an order?",
+    "gold_sql": "SELECT COUNT(*) FROM users WHERE user_id NOT IN (SELECT DISTINCT user_id FROM orders)"
+  },
+  {
+    "id": 20,
+    "category": "medium",
+    "question": "How many page_view events were there on each device type?",
+    "gold_sql": "SELECT u.device, COUNT(*) FROM events e JOIN users u ON e.user_id = u.user_id WHERE e.event_name = 'page_view' GROUP BY u.device"
+  },
+  {
+    "id": 21,
+    "category": "medium",
+    "question": "What is the total revenue per month?",
+    "gold_sql": "SELECT strftime('%Y-%m', order_date), ROUND(SUM(amount), 2) FROM orders GROUP BY 1"
+  },
+  {
+    "id": 22,
+    "category": "medium",
+    "question": "Which plan has the highest number of orders?",
+    "gold_sql": "SELECT u.plan FROM orders o JOIN users u ON o.user_id = u.user_id GROUP BY u.plan ORDER BY COUNT(*) DESC LIMIT 1"
+  },
+  {
+    "id": 23,
+    "category": "medium",
+    "question": "How many checkout events happened on each device type?",
+    "gold_sql": "SELECT u.device, COUNT(*) FROM events e JOIN users u ON e.user_id = u.user_id WHERE e.event_name = 'checkout' GROUP BY u.device"
+  },
+  {
+    "id": 24,
+    "category": "medium",
+    "question": "How many orders had an amount above 100?",
+    "gold_sql": "SELECT COUNT(*) FROM orders WHERE amount > 100"
+  },
+  {
+    "id": 25,
+    "category": "hard",
+    "question": "What is the overall add_to_cart to checkout conversion rate as a percentage? Count events, not unique users.",
+    "gold_sql": "SELECT ROUND(100.0 * SUM(event_name = 'checkout') / SUM(event_name = 'add_to_cart'), 2) FROM events"
+  },
+  {
+    "id": 26,
+    "category": "hard",
+    "question": "What is the checkout event count divided by add_to_cart event count, per device type, as a percentage?",
+    "gold_sql": "SELECT u.device, ROUND(100.0 * SUM(e.event_name = 'checkout') / SUM(e.event_name = 'add_to_cart'), 2) FROM events e JOIN users u ON e.user_id = u.user_id GROUP BY u.device"
+  },
+  {
+    "id": 27,
+    "category": "hard",
+    "question": "For each day from 2026-09-03 to 2026-09-08 inclusive, how many checkout events were there?",
+    "gold_sql": "SELECT event_date, COUNT(*) FROM events WHERE event_name = 'checkout' AND event_date BETWEEN '2026-09-03' AND '2026-09-08' GROUP BY event_date"
+  },
+  {
+    "id": 28,
+    "category": "hard",
+    "question": "Compare checkout-to-add_to_cart event ratio on iOS and Android users before 2026-08-31 versus on or after 2026-08-31. Label the two periods exactly 'before' and 'after' and show the ratio as a percentage.",
+    "gold_sql": "SELECT CASE WHEN e.event_date < '2026-08-31' THEN 'before' ELSE 'after' END AS period, ROUND(100.0 * SUM(e.event_name = 'checkout') / SUM(e.event_name = 'add_to_cart'), 2) FROM events e JOIN users u ON e.user_id = u.user_id WHERE u.device IN ('iOS', 'Android') GROUP BY period"
+  },
+  {
+    "id": 29,
+    "category": "hard",
+    "question": "What is the average number of orders per user among users who placed at least one order?",
+    "gold_sql": "SELECT ROUND(1.0 * COUNT(*) / COUNT(DISTINCT user_id), 2) FROM orders"
+  },
+  {
+    "id": 30,
+    "category": "hard",
+    "question": "What percentage of users have placed at least one order?",
+    "gold_sql": "SELECT ROUND(100.0 * COUNT(DISTINCT o.user_id) / (SELECT COUNT(*) FROM users), 2) FROM orders o"
+  },
+  {
+    "id": 31,
+    "category": "hard",
+    "question": "Which device type has the highest average order amount, and what is that average?",
+    "gold_sql": "SELECT u.device, ROUND(AVG(o.amount), 2) FROM orders o JOIN users u ON o.user_id = u.user_id GROUP BY u.device ORDER BY AVG(o.amount) DESC LIMIT 1"
+  },
+  {
+    "id": 32,
+    "category": "hard",
+    "question": "List users who have more than 10 orders, with their order counts.",
+    "gold_sql": "SELECT user_id, COUNT(*) FROM orders GROUP BY user_id HAVING COUNT(*) > 10"
+  },
+  {
+    "id": 33,
+    "category": "hard",
+    "question": "What is the daily revenue for the 3 days with the highest revenue? Show date and revenue.",
+    "gold_sql": "SELECT order_date, ROUND(SUM(amount), 2) FROM orders GROUP BY order_date ORDER BY SUM(amount) DESC LIMIT 3"
+  },
+  {
+    "id": 34,
+    "category": "hard",
+    "question": "What is the cumulative number of orders by date for 2026-09-01 to 2026-09-03?",
+    "gold_sql": "SELECT order_date, SUM(COUNT(*)) OVER (ORDER BY order_date) FROM orders WHERE order_date BETWEEN '2026-09-01' AND '2026-09-03' GROUP BY order_date"
+  },
+  {
+    "id": 35,
+    "category": "hard",
+    "question": "How many users signed up each week? Use strftime('%W') as the week number.",
+    "gold_sql": "SELECT strftime('%W', signup_date), COUNT(*) FROM users GROUP BY 1"
+  },
+  {
+    "id": 36,
+    "category": "hard",
+    "question": "What share of total revenue comes from each plan, as a percentage?",
+    "gold_sql": "SELECT u.plan, ROUND(100.0 * SUM(o.amount) / (SELECT SUM(amount) FROM orders), 2) FROM orders o JOIN users u ON o.user_id = u.user_id GROUP BY u.plan"
+  },
+  {
+    "id": 37,
+    "category": "tricky",
+    "question": "How many users converted?",
+    "gold_sql": "SELECT COUNT(DISTINCT user_id) FROM orders"
+  },
+  {
+    "id": 38,
+    "category": "tricky",
+    "question": "Which day had the most activity?",
+    "gold_sql": "SELECT event_date FROM events GROUP BY event_date ORDER BY COUNT(*) DESC LIMIT 1"
+  },
+  {
+    "id": 39,
+    "category": "tricky",
+    "question": "How many people bought something on mobile?",
+    "gold_sql": "SELECT COUNT(DISTINCT o.user_id) FROM orders o JOIN users u ON o.user_id = u.user_id WHERE u.device IN ('iOS', 'Android')"
+  }
+]
